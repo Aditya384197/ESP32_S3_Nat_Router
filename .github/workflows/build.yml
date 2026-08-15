@@ -23,6 +23,7 @@ jobs:
       - name: Build ESP32-S3 firmware
         shell: bash
         run: |
+          set -e
           . /opt/esp/idf/export.sh
           idf.py set-target esp32s3
           idf.py fullclean
@@ -31,6 +32,8 @@ jobs:
       - name: Create merged binary
         shell: bash
         run: |
+          set -e
+          . /opt/esp/idf/export.sh
           cd build
           python -m esptool \
             --chip esp32s3 \
@@ -67,6 +70,7 @@ jobs:
           cp build/flash_args \
              artifacts/flash_args
 
+          echo "=== Firmware artifacts ==="
           ls -lh artifacts
 
       - name: Upload firmware artifacts
