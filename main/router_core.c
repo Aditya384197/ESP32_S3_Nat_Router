@@ -218,7 +218,6 @@ void router_core_start(void)
     cfg.dynamic_tx_buf_num = 32;
     cfg.tx_buf_type = 1;
     cfg.rx_ba_win = 32;
-    cfg.tx_ba_win = 32;
     cfg.ampdu_rx_enable = 1;
     cfg.ampdu_tx_enable = 1;
     cfg.amsdu_tx_enable = 1;
