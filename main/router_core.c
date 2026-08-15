@@ -9,10 +9,10 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define UPLINK_SSID "YOUR_UPSTREAM_SSID"
-#define UPLINK_PASSWORD "YOUR_UPSTREAM_PASSWORD"
+#define UPLINK_SSID "Airtel_2.4GHz"
+#define UPLINK_PASSWORD "Kgf@0987"
 #define AP_SSID "ESP32S3-NAT"
-#define AP_PASSWORD "YOUR_AP_PASSWORD"
+#define AP_PASSWORD "ak@12345"
 #define AP_MAX_CONNECTIONS 8
 
 static esp_netif_t *sta_netif;
