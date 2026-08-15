@@ -1,0 +1,48 @@
+name: Build Firmware
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ESP32-S3 Build
+    runs-on: ubuntu-latest
+    container: espressif/idf:release-v6.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        run: |
+          . /opt/esp/idf/export.sh
+          idf.py set-target esp32s3
+          idf.py fullclean
+          idf.py build
+          cd build
+          python -m esptool --chip esp32s3 merge-bin -o merged.bin -f raw @flash_args
+
+      - name: Collect artifacts
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          cp build/bootloader/bootloader.bin artifacts/bootloader.bin
+          cp build/partition_table/partition-table.bin artifacts/partition-table.bin
+          cp build/nat_router.bin artifacts/nat_router.bin
+          cp build/merged.bin artifacts/merged.bin
+          cp build/flash_args artifacts/flash_args
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ESP32S3-NAT-Router
+          path: artifacts/
+          if-no-files-found: error
